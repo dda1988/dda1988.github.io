@@ -13,17 +13,14 @@ const cfg = { ...GISCUS };
         <div class="giscus" />
         <script define:vars={{ cfg }}>
           const attrs = {
-            'data-repo': cfg.repo,
-            'data-repo-id': cfg.repoId,
-            'data-category': cfg.category,
-            'data-category-id': cfg.categoryId,
-            'data-mapping': cfg.mapping,
-            'data-lang': cfg.lang,
-            'data-reactions-enabled': '1',
-            'data-emit-metadata': '0',
-            'data-input-position': 'top',
-            'data-theme': 'light',
-            'data-loading': 'lazy',
+'data-mapping': cfg.mapping,
+'data-strict': cfg.strict,
+'data-lang': cfg.lang,
+'data-reactions-enabled': '1',
+'data-emit-metadata': '0',
+'data-input-position': cfg.inputPosition,
+'data-theme': cfg.theme,
+'data-loading': 'lazy',
           };
           const s = document.createElement('script');
           s.src = 'https://giscus.app/client.js';
