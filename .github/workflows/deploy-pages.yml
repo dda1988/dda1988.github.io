@@ -22,10 +22,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: withastro/action@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 20
-          package-manager: npm
+          node-version: 22
+      # 本地 lock 只在 Windows 上生成，缺少 Linux 的 Rollup 可选依赖；
+      # 删除后让 npm 在 Linux 上重新解析，避开 npm/cli#4828。
+      - name: Install dependencies
+        run: |
+          rm -f package-lock.json
+          npm install
+      - name: Build
+        run: npm run build
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
 
   deploy:
     needs: build
