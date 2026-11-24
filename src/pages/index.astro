@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostList from '../components/PostList.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<BaseLayout>
+  <section class="wrap home-list">
+    <div class="section-head">
+      <h2>最新文章</h2>
+      <span>{posts.length} 篇</span>
+    </div>
+    <PostList posts={posts} />
+  </section>
+</BaseLayout>
