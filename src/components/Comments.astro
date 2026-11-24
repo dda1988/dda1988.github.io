@@ -1,0 +1,44 @@
+---
+import { GISCUS } from '../consts';
+
+const ready = Boolean(GISCUS.repo && GISCUS.repoId);
+const cfg = { ...GISCUS };
+---
+
+<section class="comments">
+  <h2>评论</h2>
+  {
+    ready ? (
+      <>
+        <div class="giscus" />
+        <script define:vars={{ cfg }}>
+          const attrs = {
+            'data-repo': cfg.repo,
+            'data-repo-id': cfg.repoId,
+            'data-category': cfg.category,
+            'data-category-id': cfg.categoryId,
+            'data-mapping': cfg.mapping,
+            'data-lang': cfg.lang,
+            'data-reactions-enabled': '1',
+            'data-emit-metadata': '0',
+            'data-input-position': 'top',
+            'data-theme': 'light',
+            'data-loading': 'lazy',
+          };
+          const s = document.createElement('script');
+          s.src = 'https://giscus.app/client.js';
+          s.async = true;
+          s.crossOrigin = 'anonymous';
+          Object.entries(attrs).forEach(([k, v]) => s.setAttribute(k, v));
+          document.querySelector('.giscus')?.appendChild(s);
+        </script>
+      </>
+    ) : (
+      <div class="comment-hint">
+        评论区尚未启用。在 <code>src/consts.ts</code> 中填写 <code>GISCUS.repo</code> 与
+        <code>GISCUS.repoId</code> 后，评论框会出现在这里。<br />
+        步骤：仓库 Settings → Features 勾选 Discussions → 打开 giscus.app 授权并生成配置。
+      </div>
+    )
+  }
+</section>
