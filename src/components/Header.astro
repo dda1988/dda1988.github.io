@@ -1,0 +1,48 @@
+---
+import { SITE } from '../consts';
+import { path } from '../lib/url';
+
+const nav = [
+  { href: '/', label: 'Posts' },
+  { href: '/tags/', label: 'Tags' },
+  { href: '/about/', label: 'About' },
+  { href: '/search/', label: 'Search' },
+];
+
+const current = Astro.url.pathname;
+const norm = (s: string) => (s.length > 1 ? s.replace(/\/+$/, '') : s);
+
+const isActive = (href: string) => {
+  const cur = norm(current);
+  const full = norm(path(href));
+  if (href === '/') {
+    return cur === full || cur.startsWith(norm(path('/blog')));
+  }
+  return cur === full || cur.startsWith(`${full}/`);
+};
+---
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href={path('/')}>
+      <svg class="brand-mark" viewBox="0 0 28 28" aria-hidden="true" focusable="false">
+        <rect width="28" height="28" rx="8" fill="#0f6e56" />
+        <path fill="#fff" fill-rule="evenodd" d="M8 6.5h5.2c4.7 0 7.8 3.2 7.8 7.5s-3.1 7.5-7.8 7.5H8V6.5zm3.2 3v9h1.9c3 0 4.7-1.9 4.7-4.5s-1.7-4.5-4.7-4.5h-1.9z" />
+      </svg>
+      <span class="brand-text"><span class="brand-base">{SITE.brandBase}</span><span class="brand-accent">{SITE.brandAccent}</span></span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      {
+        nav.map((item) => (
+          <a
+            href={path(item.href)}
+            class:list={[{ active: isActive(item.href) }]}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>
