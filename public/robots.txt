@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dda1988.github.io/sitemap-index.xml
