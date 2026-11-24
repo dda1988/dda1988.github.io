@@ -1,0 +1,38 @@
+# 仅在你想用 GitHub Pages 而不是 Cloudflare Pages 时才需要这个文件。
+# 用法：把本文件移动到仓库的 .github/workflows/deploy-pages.yml，
+# 并在仓库 Settings → Pages → Source 选择 "GitHub Actions"。
+name: deploy-pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: withastro/action@v3
+        with:
+          node-version: 20
+          package-manager: npm
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
