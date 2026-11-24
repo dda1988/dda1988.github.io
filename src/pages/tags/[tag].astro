@@ -1,0 +1,48 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+
+  const grouped = new Map<string, CollectionEntry<'blog'>[]>();
+  for (const post of posts) {
+    for (const tag of post.data.tags) {
+      const list = grouped.get(tag) ?? [];
+      list.push(post);
+      grouped.set(tag, list);
+    }
+  }
+
+  return [...grouped.entries()].map(([tag, list]) => ({
+    params: { tag },
+    props: {
+      tag,
+      posts: list.sort(
+        (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+      ),
+    },
+  }));
+}
+
+interface Props {
+  tag: string;
+  posts: CollectionEntry<'blog'>[];
+}
+
+const { tag, posts } = Astro.props;
+---
+
+<BaseLayout title={`标签：${tag}`} description={`所有带有 ${tag} 标签的文章`}>
+  <section class="wrap panel">
+    <div class="section-head">
+      <h2>标签</h2>
+      <a href="/tags/">← 全部标签</a>
+    </div>
+    <h1 class="page-title" style="margin-top: 10px;">{tag}</h1>
+    <p class="page-desc">{posts.length} 篇文章</p>
+    <PostList posts={posts} />
+  </section>
+</BaseLayout>
