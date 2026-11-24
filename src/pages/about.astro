@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../consts';
+---
+
+<BaseLayout title="关于" description={`关于 ${SITE.title}`}>
+  <section class="wrap panel">
+    <h1 class="page-title">关于</h1>
+    <p class="page-desc">这个页面由 src/pages/about.astro 生成，想写什么就改这里。</p>
+
+    <div class="page-body">
+      <p>
+        你好，我是 {SITE.author}。这个站点用来存放我写的东西：技术笔记、读书摘录，以及一些暂时没有归处
+        的想法。
+      </p>
+      <p>
+        站点用 Astro 构建，文章全部是本地 Markdown 文件，没有数据库、没有后台，构建产物是纯静态
+        HTML，托管在 Cloudflare Pages 上。
+      </p>
+      <p>
+        如果你想联系我，可以在 <a href={`https://github.com/${SITE.github}`}>GitHub</a> 上找到我；
+        也可以直接订阅 <a href="/rss.xml">RSS</a>。
+      </p>
+    </div>
+  </section>
+</BaseLayout>
