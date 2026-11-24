@@ -1,0 +1,6 @@
+# Cloudflare Pages 重定向规则（每行一条，注释用 #）
+# 改文章链接时，把旧地址 301 到新地址，保住搜索引擎收录：
+# /blog/old-slug/  /blog/new-slug/  301
+#
+# 下面这条是单页应用（SPA）的兜底，纯静态博客不要放开：
+# /*  /index.html  200
