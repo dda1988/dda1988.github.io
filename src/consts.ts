@@ -17,10 +17,14 @@ export const SITE = {
 // Giscus 评论：filling 这两个值之前，文章页会显示配置提示
 // 获取地址：https://giscus.app  （需要仓库是公开的，并开启 Discussions）
 export const GISCUS = {
-  repo: '',        // 例：'yourname/blog'
-  repoId: '',      // 例：'R_kgDOLxxxxxx'
-  category: 'Comments',
-  categoryId: '',
+  repo: 'dda1988/dda1988.github.io',
+  repoId: 'R_kgDON59teQ',
+  category: 'Announcements',
+  categoryId: 'DIC_kwDON59tec4DL39K',
   mapping: 'pathname',
+  strict: '1',
   lang: 'zh-CN',
+  inputPosition: 'bottom',
+  theme: 'preferred_color_scheme',
 };
+
