@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="搜索" description="站内全文搜索">
+  <link slot="head" rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+
+  <section class="wrap panel search-page">
+    <h1 class="page-title">搜索</h1>
+    <p class="page-desc">索引在构建时生成，纯前端运行，不需要任何服务端。</p>
+
+    <div id="search"></div>
+    <noscript>
+      <p class="post-desc">搜索功能需要启用 JavaScript。</p>
+    </noscript>
+  </section>
+
+  <script is:inline src="/pagefind/pagefind-ui.js"></script>
+  <script is:inline>
+    window.addEventListener('DOMContentLoaded', () => {
+      const el = document.querySelector('#search');
+      if (!el) return;
+
+      if (typeof window.PagefindUI === 'function') {
+        new window.PagefindUI({
+          element: '#search',
+          showSubResults: true,
+          showImages: false,
+          translations: {
+            placeholder: '搜索文章…',
+            zero_results: '没有找到与 [SEARCH_TERM] 相关的内容',
+          },
+        });
+      } else {
+        el.innerHTML =
+          '<p class="post-desc">搜索索引还没生成（开发模式下正常）。执行 <code>npm run build</code> 后预览即可使用。</p>';
+      }
+    });
+  </script>
+</BaseLayout>
